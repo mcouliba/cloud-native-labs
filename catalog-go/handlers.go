@@ -21,34 +21,18 @@ func HomePage(w http.ResponseWriter, r *http.Request){
 func GetProducts(w http.ResponseWriter, r *http.Request){
 
 	products := Products{
-		Product{ ItemId: "", Name: "Goku", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Vegeta", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Gohan", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Piccolo", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Kame-Sennin", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Bulma", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Freeza", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Cell", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Broly", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "MajinBoo", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Kuririn", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Tenshinhan", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Gohan", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Trunks", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Android18", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Goten", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Beerus", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Whis", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "RedRibbonArmy", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "GeneralBlue", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "DoctorGero", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Taopaipai", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Raditz", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Nappa", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Bobbidi", Description: "Description", Price: 12.2},
-		Product{ ItemId: "", Name: "Dabra", Description: "Description", Price: 12.2},
+			Product{ ItemId: "329299", Name: "Red Fedora", Description: "OFFICIAL RED HAT FEDORA", Price: 34.99},
+			Product{ ItemId: "329199", Name: "Forge Laptop Sticker", Description: "JBOSS COMMUNITY FORGE PROJECT STICKER", Price: 8.50},
+			Product{ ItemId: "165613", Name: "Solid Performance Polo", Description: "MOISTURE-WICKING, ANTIMICROBIAL 100% POLYESTER DESIGN WICKS FOR LIFE OF GARMENT. NO-CURL, RIB-KNIT COLLAR...", Price: 17.80},
+			Product{ ItemId: "165614", Name: "Ogio Caliber Polo", Description: "MOISTURE-WICKING 100% POLYESTER. RIB-KNIT COLLAR AND CUFFS; OGIO JACQUARD TAPE INSITEM_IDE NECK; BAR-TACKED THREE-BUTTON PLACKET WITH...", Price: 28.75},
+			Product{ ItemId: "165954", Name: "16 oz. Vortex Tumbler", Description: "DOUBLE-WALL INSULATED, BPA-FREE, ACRYLIC CUP. PUSH-ON LITEM_ID WITH THUMB-SLITEM_IDE CLOSURE; FOR HOT AND COLD BEVERAGES. HOLDS 16 OZ. HAND WASH ONLY. IMPRINT. CLEAR.", Price: 6.00},
+			Product{ ItemId: "444434", Name: "Pebble Smart Watch", Description: "SMART GLASSES AND SMART WATCHES ARE PERHAPS TWO OF THE MOST EXCITING DEVELOPMENTS IN RECENT YEARS.", Price: 24.00},
+			Product{ ItemId: "444435", Name: "Oculus Rift", Description: "THE WORLD OF GAMING HAS ALSO UNDERGONE SOME VERY UNIQUE AND COMPELLING TECH ADVANCES IN RECENT YEARS. VIRTUAL REALITY...", Price: 106.00},
+			Product{ ItemId: "444436", Name: "Lytro Camera", Description: "CONSUMERS WHO WANT TO UP THEIR PHOTOGRAPHY GAME ARE LOOKING AT NEWFANGLED CAMERAS LIKE THE LYTRO FIELD CAMERA, DESIGNED TO ...", Price: 44.30},
     }
- 
+	
+	// Define Content-Type = application/json
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
     if err := json.NewEncoder(w).Encode(products); err != nil {
         panic(err)
     }

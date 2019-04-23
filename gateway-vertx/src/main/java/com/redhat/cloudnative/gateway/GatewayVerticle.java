@@ -28,6 +28,7 @@ public class GatewayVerticle extends AbstractVerticle {
     @Override
     public void start() {
         Router router = Router.router(vertx);
+        // Enable TraceInterceptor handler here
         router.route()
             .handler(CorsHandler.create("*")
                 .allowedMethod(HttpMethod.GET));
@@ -65,8 +66,8 @@ public class GatewayVerticle extends AbstractVerticle {
     
     private void products(RoutingContext rc) {
         // Retrieve catalog
-        catalog
-        .get("/api/catalog").as(BodyCodec.jsonArray()).rxSend()
+        catalog.get("/api/catalog")
+            .as(BodyCodec.jsonArray()).rxSend()
             .map(resp -> {
                 if (resp.statusCode() != 200) {
                     new RuntimeException("Invalid response from the catalog: " + resp.statusCode());
@@ -78,8 +79,8 @@ public class GatewayVerticle extends AbstractVerticle {
                 Observable.from(products)
                     .cast(JsonObject.class)
                     .flatMapSingle(product ->
-                        inventory
-                        .get("/api/inventory/" + product.getString("itemId")).as(BodyCodec.jsonObject())
+                        inventory.get("/api/inventory/" + product.getString("itemId"))
+                            .as(BodyCodec.jsonObject())
                             .rxSend()
                             .map(resp -> {
                                 if (resp.statusCode() != 200) {
