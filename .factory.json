@@ -101,11 +101,10 @@
       "attributes": {},
       "commands": [
         {
-          "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\noc login ${OPENSHIFT_CONSOLE_URL} -u ${username} -p openshift --insecure-skip-tls-verify\noc project ${projectname}\necho "-----------"\necho "Successful Connected to OpenShift as ${username}"\necho "-----------"",
+          "commandLine": "username=${workspace.namespace}\\nprojectname=coolstore${username#user}\\noc login ${OPENSHIFT_CONSOLE_URL} -u ${username} -p openshift --insecure-skip-tls-verify\\noc project ${projectname}\\necho \"-----------\"\\necho \"Successful Connected to OpenShift as ${username}\"\\necho \"-----------\"",
           "name": "oc login",
           "attributes": {
-            "goal": "OpenShift",
-            "previewUrl": ""
+            "goal": "OpenShift"
           },
           "type": "custom"
         },
