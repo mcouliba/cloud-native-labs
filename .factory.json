@@ -109,7 +109,7 @@
           "type": "custom"
         },
         {
-          "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\noc process -f https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master/openshift/coolstore.yml -p COOLSTORE_PROJECT=${projectname} | oc create -f - && \\\noc start-build catalog-s2i --from-dir /projects/labs/catalog-spring-boot/ && \\\noc start-build inventory-s2i --from-dir /projects/labs/inventory-thorntail/ && \\\noc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ && \\\noc start-build web --from-dir /projects/labs/web-nodejs/",
+          "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\noc process -f https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master/openshift/coolstore.yml -p COOLSTORE_PROJECT=${projectname} | oc create -f - && \\\noc start-build catalog-s2i --from-dir /projects/labs/catalog-spring-boot/ && \\\noc start-build inventory-s2i --from-dir /projects/labs/inventory-thorntail/ --follow && \\\noc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ && \\\noc start-build web --from-dir /projects/labs/web-nodejs/",
           "name": "Build Mysterious Application",
           "attributes": {
             "goal": "Build"
