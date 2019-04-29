@@ -141,7 +141,7 @@
           "type": "custom"
         },
         {
-          "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\ninfraname=infra${username#user}\necho \"Execute in Terminal Windows\" && \\\necho \"squashctl --machine --namespace ${projectname} --debugger java --squash-namespace ${infraname}\"",
+          "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\ninfraname=infra${username#user}\necho \"Execute in Terminal Windows\" && \\\necho \"squashctl --namespace ${projectname} --debugger java-port --squash-namespace ${infraname}\"",
           "name": "Debug Squash Inventory",
           "attributes": {
             "goal": "Debug"
