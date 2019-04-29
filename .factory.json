@@ -109,6 +109,30 @@
           "type": "custom"
         },
         {
+          "commandLine": "echo \"Squash version used from Solo.io\" && \\\nsquashctl --version",
+          "name": "Squash Version",
+          "attributes": {
+            "goal": "Debug"
+          },
+          "type": "custom"
+        },
+        {
+          "commandLine": "oc start-build inventory-s2i --from-dir /projects/labs/inventory-thorntail/ --follow ",
+          "name": "Build Inventory Service",
+          "attributes": {
+            "goal": "Build"
+          },
+          "type": "custom"
+        },
+        {
+          "commandLine": "oc new-app /projects/labs/ --strategy=docker --context-dir=catalog-go --name=catalog-v2 --labels app=catalog,group=com.redhat.cloudnative,provider=fabric8,version=2.0 && \\\noc start-build catalog-v2 --from-dir /projects/labs/catalog-go/ --follow && \\\noc patch dc/catalog-v2 --patch '{\"spec\": {\"template\": {\"metadata\": {\"annotations\": {\"sidecar.istio.io/inject\": \"true\"}}}}}' && \\\necho \"Catalog V2 in Go Language and Integration of Istio Sidecar\"",
+          "name": "Option: Catalog V2  in Go",
+          "attributes": {
+            "goal": "Build"
+          },
+          "type": "custom"
+        },
+        {
           "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\noc process -f https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master/openshift/coolstore.yml -p COOLSTORE_PROJECT=${projectname} | oc create -f - && \\\noc start-build catalog-s2i --from-dir /projects/labs/catalog-spring-boot/ && \\\noc start-build inventory-s2i --from-dir /projects/labs/inventory-thorntail/ --follow && \\\noc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ && \\\noc start-build web --from-dir /projects/labs/web-nodejs/",
           "name": "Build Mysterious Application",
           "attributes": {
@@ -117,51 +141,47 @@
           "type": "custom"
         },
         {
-            "commandLine": "oc new-app /projects/labs/ --strategy=docker --context-dir=catalog-go --name=catalog-v2 --labels app=catalog,group=com.redhat.cloudnative,provider=fabric8,version=2.0 && \\\noc start-build catalog-v2 --from-dir /projects/labs/catalog-go/ --follow && \\\necho \"Catalog in Go Language\"\n", 
-            "name":"Option : Catalog in GO", 
-            "attributes": {
-                "goal":"Build"
-            }, 
-            "type":"custom"
+          "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\ninfraname=infra${username#user}\necho \"Execute in Terminal Windows\" && \\\necho \"squashctl --machine --namespace ${projectname} --debugger java --squash-namespace ${infraname}\"",
+          "name": "Debug Squash Inventory",
+          "attributes": {
+            "goal": "Debug"
+          },
+          "type": "custom"
         },
         {
-          "commandLine":"echo \"Squash version used from Solo.io\" && \\\nsquashctl --version", 
-          "name":"Squash Version", 
+          "commandLine": "username=${workspace.namespace}\nprojectname=infra${username#user}\necho \"squashctl utils delete-planks --squash-namespace ${projectname}\"\nsquashctl utils delete-planks --squash-namespace ${projectname}",
+          "name": "Delete Squash Attachments",
           "attributes": {
-            "goal":"Debug"
-          }, 
-          "type":"custom"
+            "goal": "Debug"
+          },
+          "type": "custom"
         },
         {
-          "commandLine":"username=${workspace.namespace}\\nprojectname=coolstore${username#user} \\necho \"Execute in Terminal : curl --verbose http://inventory-${projectname}.apps.montpellier-5a9c.openshiftworkshop.com/api/inventory/444436\" ", 
-          "name":"curl inventory GET API", 
+          "commandLine": "username=${workspace.namespace}\nproject_name=coolstore${username#user}\nurl=http://istio-ingressgateway.istio-system.svc/${project_name}/api/products\necho \"$url\"\nresponse=$(curl --write-out %{http_code} --silent --output /dev/null $url)\nif [ \"${response}\" == \"200\" ]\nthen\n    while true; do \n        if curl -s ${url} | grep -q OFFICIAL\n        then\n            echo \"Gateway => Catalog GoLang (v2)\";\n        else\n            echo \"Gateway => Catalog Spring Boot (v1)\";\n        fi\n        sleep 1\n    done\nelse\n    echo \"Error ${response} when calling ${url}\";\nfi",
+          "name": "testGatewayService",
           "attributes": {
-            "goal":"Run"
-          }, 
-          "type":"custom"},
-        {
-          "commandLine":"username=${workspace.namespace}\\nprojectname=coolstore${username#user}\\ninfraname=infra${username#user}\\necho \"Execute in Terminal Windows\" &&\\\necho \"squashctl --machine --namespace ${projectname} --debugger java --squash-namespace ${infraname}\"\\n", 
-          "name":"Debug Squash Inventory", 
-          "attributes": {
-            "goal":"Debug"
-          }, 
-          "type":"custom"
+            "goal": "Test",
+            "previewUrl": ""
+          },
+          "type": "custom"
         },
         {
-          "commandLine":"oc start-build inventory-s2i --from-dir /projects/labs/inventory-thorntail/ --follow ", 
-          "name":"Build Inventory Service", 
+          "commandLine": "username=${workspace.namespace}\nproject_name=coolstore${username#user}\nurl=http://istio-ingressgateway.istio-system.svc/${project_name}/api/products\necho \"$url\"\nresponse=$(curl --write-out %{http_code} --silent --output /dev/null $url)\nif [ \"${response}\" == \"200\" ]\nthen\n    while true; do \n        if curl -s ${url} | grep -q OFFICIAL\n        then\n            echo \"Gateway => Catalog GoLang (v2)\";\n        else\n            echo \"Gateway => Catalog Spring Boot (v1)\";\n        fi\n        sleep 1\n    done\nelse\n    echo \"Error ${response} when calling ${url}\";\nfi",
+          "name": "testGatewayService",
           "attributes": {
-            "goal":"Build"
-          }, 
-          "type":"custom"
+            "goal": "Test",
+            "previewUrl": ""
+          },
+          "type": "custom"
         },
         {
-          "commandLine":"username=${workspace.namespace}\\nprojectname=infra${username#user}\\necho \"squashctl utils delete-planks --squash-namespace ${projectname}\"\\nsquashctl utils delete-planks --squash-namespace ${projectname}", 
-          "name":"Delete Squash Attachments", 
+          "commandLine": "username=${workspace.namespace}\nproject_name=coolstore${username#user}\nurl=http://istio-ingressgateway.istio-system.svc/${project_name}/api/products\necho \"$url\"\nresponse=$(curl --write-out %{http_code} --silent --output /dev/null $url)\nif [ \"${response}\" == \"200\" ]\nthen\n    while true; do \n        if curl -s ${url} | grep -q OFFICIAL\n        then\n            echo \"Gateway => Catalog GoLang (v2)\";\n        else\n            echo \"Gateway => Catalog Spring Boot (v1)\";\n        fi\n        sleep 1\n    done\nelse\n    echo \"Error ${response} when calling ${url}\";\nfi",
+          "name": "testGatewayService",
           "attributes": {
-            "goal":"Debug"
-          }, 
-          "type":"custom"
+            "goal": "Test",
+            "previewUrl": ""
+          },
+          "type": "custom"
         }
       ],
       "links": []
