@@ -182,7 +182,17 @@
             "previewUrl": ""
           },
           "type": "custom"
+        },
+        {
+          "commandLine": "username=${workspace.namespace}\nproject_name=coolstore${username#user}\nurl=http://web.${project_name}.svc.cluster.local:8080\necho \"$url\"\nresponse=$(curl --write-out %{http_code} --silent --output /dev/null $url)\nif [ \"${response}\" == \"200\" ]\nthen\n    while true; do \n        echo \"Generating traffic\";\n        sleep 1\n    done\nelse\n    echo \"Error ${response} when calling ${url}\";\nfi",
+          "name": "generateTraffic",
+          "attributes": {
+            "goal": "Test",
+            "previewUrl": ""
+          },
+          "type": "custom"
         }
+        
       ],
       "links": []
     },
