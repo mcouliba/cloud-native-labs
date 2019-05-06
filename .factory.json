@@ -21,7 +21,7 @@
               "env": {
                 "MAVEN_OPTS": "-Xmx512m",
                 "MAVEN_MIRROR_URL": "http://nexus:8081/repository/maven-all-public",
-                "OPENSHIFT_CONSOLE_URL": "https://master.5568.summit.opentlc.com/"
+                "OPENSHIFT_CONSOLE_URL": "https://master.b6b2.summit.opentlc.com/"
               }
             }
           },

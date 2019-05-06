@@ -1,6 +1,6 @@
 ![Red Hat Summit](images/redhatsummit2019.jpg)
 
-# Debugging microservices applications on Red Hat OpenShift [![Contribute](images/factory-contribute.svg)](http://codeready-lab-infra.apps.5568.summit.opentlc.com/f?url=https://github.com/mcouliba/cloud-native-labs/tree/debugging)
+# Debugging microservices applications on Red Hat OpenShift [![Contribute](images/factory-contribute.svg)](http://codeready-lab-infra.apps.b6b2.summit.opentlc.com/f?url=https://github.com/mcouliba/cloud-native-labs/tree/debugging)
 
 ## Purpose
 
