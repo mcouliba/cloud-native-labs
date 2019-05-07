@@ -39,7 +39,7 @@ Node.js and AngularJS adopting the microservices architecture.
           |             |     |             |
           |   Catalog   |     |  Inventory  |
           |             |     |             |
-          | Spring Boot |     |WildFly Swarm|
+          | Spring Boot |     |    Vert.X   |
           |             |     |             |
           +-------------+     +-------------+
 ```
