@@ -26,7 +26,7 @@ public class InventoryVerticle extends AbstractVerticle {
 
     Router router = Router.router(vertx);
     router.get("/*").handler(StaticHandler.create("assets"));
-    router.get("/health").handler(ctx -> ctx.response().end(new JsonObject().put("status", "UP").toString()));
+    router.get("/node").handler(ctx -> ctx.response().end(new JsonObject().put("status", "UP").toString()));
 
     Single<HttpServer> serverSingle = vertx.createHttpServer()
         .requestHandler(router)
