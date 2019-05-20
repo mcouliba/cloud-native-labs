@@ -27,7 +27,7 @@
           },
           "recipe": {
             "type": "dockerimage",
-            "content": "quay.io/mcouliba/che-cloud-native"
+            "content": "docker-registry.default.svc:5000/openshift/che-cloud-native"
           }
         }
       },
