@@ -20,14 +20,14 @@
               ],
               "env": {
                 "MAVEN_OPTS": "-Xmx512m",
-                "MAVEN_MIRROR_URL": "http://nexus:8081/repository/maven-all-public",
+                "MAVEN_MIRROR_URL": "http://nexus.opentlc-shared.svc:8081/repository/maven-all-public",
                 "OPENSHIFT_CONSOLE_URL": "https://master.nextgenappdev-b61e.openshiftworkshop.com/"
               }
             }
           },
           "recipe": {
             "type": "dockerimage",
-            "content": "docker-registry.default.svc:5000/openshift/che-cloud-native"
+            "content": "image-registry.openshift-image-registry.svc:5000/openshift/che-cloud-native"
           }
         }
       },
