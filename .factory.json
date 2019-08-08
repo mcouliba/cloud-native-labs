@@ -21,7 +21,7 @@
               "env": {
                 "MAVEN_OPTS": "-Xmx512m",
                 "MAVEN_MIRROR_URL": "http://nexus.opentlc-shared.svc:8081/repository/maven-all-public",
-                "OPENSHIFT_CONSOLE_URL": "https://api.cluster-1d80.1d80.events.opentlc.com"
+                "OPENSHIFT_API_URL": "https://api.cluster-3ea4.3ea4.events.opentlc.com"
               }
             }
           },
@@ -101,7 +101,7 @@
       "attributes": {},
       "commands": [
         {
-          "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\noc login ${OPENSHIFT_CONSOLE_URL} -u ${username} -p 'openshift' --insecure-skip-tls-verify\noc project ${projectname}\necho \"-----------\"\necho \"Successful Connected to OpenShift as ${username}\"\necho \"-----------\"",
+          "commandLine": "username=${workspace.namespace}\nprojectname=coolstore${username#user}\noc login ${OPENSHIFT_API_URL} -u ${username} -p 'openshift' --insecure-skip-tls-verify\noc project ${projectname}\necho \"-----------\"\necho \"Successful Connected to OpenShift as ${username}\"\necho \"-----------\"",
           "name": "oc login",
           "attributes": {
             "goal": "OpenShift"
