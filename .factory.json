@@ -27,7 +27,7 @@
           },
           "recipe": {
             "type": "dockerimage",
-            "content": "image-registry.openshift-image-registry.svc:5000/openshift/che-cloud-native"
+            "content": "image-registry.openshift-image-registry.svc:5000/openshift/che-cloud-native:ocp4"
           }
         }
       },
