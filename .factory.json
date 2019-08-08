@@ -8,7 +8,7 @@
           "machines": {
             "dev-machine": {
               "attributes": {
-                "memoryLimitBytes": "2147483648"
+                "memoryLimitBytes": "4294967296"
               },
               "servers": {},
               "volumes": {},
@@ -21,7 +21,7 @@
               "env": {
                 "MAVEN_OPTS": "-Xmx512m",
                 "MAVEN_MIRROR_URL": "http://nexus.opentlc-shared.svc:8081/repository/maven-all-public",
-                "OPENSHIFT_CONSOLE_URL": "https://master.nextgenappdev-b61e.openshiftworkshop.com/"
+                "OPENSHIFT_CONSOLE_URL": "https://console-openshift-console.apps.cluster-1d80.1d80.events.opentlc.com"
               }
             }
           },
