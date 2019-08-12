@@ -12,7 +12,7 @@
 # docker run -i --rm -p 8080:8080 quarkus/cart
 #
 ###
-FROM registry.fedoraproject.org/fedora-minimal
+FROM registry.access.redhat.com/ubi8/ubi-minimal 
 WORKDIR /work/
 COPY target/*-runner /work/application
 RUN chmod 775 -R /work

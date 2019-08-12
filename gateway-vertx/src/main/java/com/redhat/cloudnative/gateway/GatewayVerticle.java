@@ -21,12 +21,12 @@ import rx.Single;
 
 public class GatewayVerticle extends AbstractVerticle {
     private static final Logger LOG = LoggerFactory.getLogger(GatewayVerticle.class);
-
+    
     private WebClient catalog;
     private WebClient inventory;
     // Cart Attribute
-//    private WebClient cart;
-
+    private WebClient cart;
+    
     @Override
     public void start() {
         Router router = Router.router(vertx);
@@ -59,18 +59,19 @@ public class GatewayVerticle extends AbstractVerticle {
                             .setDefaultPort(Integer.getInteger("inventory.api.port", 9001))));
 
             // Cart lookup
-//            Single<WebClient> cartDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
-//                    rec -> rec.getName().equals("cart"))
-//                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
-//                            .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
-//                            .setDefaultPort(Integer.getInteger("inventory.api.port", 9002))));
+            Single<WebClient> cartDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
+                    rec -> rec.getName().equals("cart"))
+                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
+                            .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
+                            .setDefaultPort(Integer.getInteger("inventory.api.port", 9002))));
 
             // Zip all 3 requests
-            Single.zip(catalogDiscoveryRequest, inventoryDiscoveryRequest, 
-                (cg, i) -> {
+            Single.zip(catalogDiscoveryRequest, inventoryDiscoveryRequest, cartDiscoveryRequest, 
+                (cg, i, ct) -> {
                     // When everything is done
                     catalog = cg;
                     inventory = i;
+                    cart = ct;
                     return vertx.createHttpServer()
                         .requestHandler(router::accept)
                         .listen(Integer.getInteger("http.port", 8080));
@@ -114,22 +115,22 @@ public class GatewayVerticle extends AbstractVerticle {
             );
     }
     
-//    private void getCartHandler(RoutingContext rc) {
-//        String cardId = rc.request().getParam("cardId");
-//        
-//        // Retrieve cart
-//        cart
-//        .get("/api/cart/" + cardId)
-//        .as(BodyCodec.jsonObject())
-//        .rxSend()
-//        .subscribe(
-//            resp -> {
-//                if (resp.statusCode() != 200) {
-//                    new RuntimeException("Invalid response from the cart: " + resp.statusCode());
-//                }
-//                rc.response().end(Json.encodePrettily(resp.body()));
-//            },
-//            error -> rc.response().end(new JsonObject().put("error", error.getMessage()).toString())
-//        );
-//    }
+    private void getCartHandler(RoutingContext rc) {
+        String cardId = rc.request().getParam("cardId");
+        
+        // Retrieve cart
+        cart
+        .get("/api/cart/" + cardId)
+        .as(BodyCodec.jsonObject())
+        .rxSend()
+        .subscribe(
+            resp -> {
+                if (resp.statusCode() != 200) {
+                    new RuntimeException("Invalid response from the cart: " + resp.statusCode());
+                }
+                rc.response().end(Json.encodePrettily(resp.body()));
+            },
+            error -> rc.response().end(new JsonObject().put("error", error.getMessage()).toString())
+        );
+    }
 }
