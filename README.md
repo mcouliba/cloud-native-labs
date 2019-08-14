@@ -1,4 +1,4 @@
-# Debugging microservices applications on Red Hat OpenShift [![Contribute](images/factory-contribute.svg)](http://codeready-workspaces.apps.cluster-3ea4.3ea4.events.opentlc.com/f?url=https://github.com/mcouliba/cloud-native-labs/tree/debugging)
+# Debugging microservices applications on Red Hat OpenShift [![Contribute](images/factory-contribute.svg)](http://codeready-workspaces.apps.cluster-4e94.4e94.events.opentlc.com/f?name=debugging-microservices&user=admin)
 
 ## Purpose
 
