@@ -38,7 +38,7 @@ public class GatewayVerticle extends AbstractVerticle {
             .handler(CorsHandler.create("*")
                 .allowedMethod(HttpMethod.GET));
         router.get("/*").handler(StaticHandler.create("assets"));
-        router.get("/health").handler(ctx -> ctx.response().end(new JsonObject().put("status", "UP").toString()));
+        router.get("/health").handler(this::health);
         router.get("/api/products").handler(this::products);
         // Cart Route
 //        router.get("/api/cart/:cardId").handler(this::getCartHandler);
@@ -47,23 +47,22 @@ public class GatewayVerticle extends AbstractVerticle {
             // Catalog lookup
             Single<WebClient> catalogDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
                     rec -> rec.getName().equals("catalog"))
-                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
-                            .setDefaultHost(System.getProperty("catalog.api.host", "localhost"))
-                            .setDefaultPort(Integer.getInteger("catalog.api.port", 9000))));
+                    .doOnError(error -> {
+                        LOG.warn("Catalog Service is not available: {}", error.getMessage());
+                        vertx.close();
+                    });
 
             // Inventory lookup
             Single<WebClient> inventoryDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
                     rec -> rec.getName().equals("inventory"))
-                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
-                            .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
-                            .setDefaultPort(Integer.getInteger("inventory.api.port", 9001))));
+                    .doOnError(error -> {
+                        LOG.warn("Inventory Service is not available: {}", error.getMessage());
+                        vertx.close();
+                    });
 
             // Cart lookup
             Single<WebClient> cartDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
-                    rec -> rec.getName().equals("cart"))
-                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
-                            .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
-                            .setDefaultPort(Integer.getInteger("inventory.api.port", 9002))));
+                    rec -> rec.getName().equals("cart"));
 
             // Zip all 3 requests
             Single.zip(catalogDiscoveryRequest, inventoryDiscoveryRequest, cartDiscoveryRequest, 
@@ -132,5 +131,20 @@ public class GatewayVerticle extends AbstractVerticle {
             },
             error -> rc.response().end(new JsonObject().put("error", error.getMessage()).toString())
         );
+    }
+
+    private void health(RoutingContext rc) {
+        // Check Catalog and Inventory Service up and running
+        catalog.get("/").rxSend()
+            .subscribe(
+                catalogCallOk -> {
+                    inventory.get("/").rxSend()
+                        .subscribe(
+                            inventoryCallOk -> rc.response().setStatusCode(200).end(new JsonObject().put("status", "UP").toString()),
+                            error -> rc.response().setStatusCode(503).end(new JsonObject().put("status", "DOWN").toString())
+                        );
+                },
+                error -> rc.response().setStatusCode(503).end(new JsonObject().put("status", "DOWN").toString())
+            );
     }
 }

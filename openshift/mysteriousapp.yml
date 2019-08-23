@@ -498,7 +498,12 @@ objects:
           version: v1.0
       spec:
         containers:
-        - env:
+        - args:
+          - -c
+          - until $(curl -o /dev/null -s -I -f http://localhost:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
+          command:
+          - /bin/bash
+          env:
           - name: KUBERNETES_NAMESPACE
             valueFrom:
               fieldRef:
