@@ -44,28 +44,29 @@ public class GatewayVerticle extends AbstractVerticle {
 //        router.get("/api/cart/:cardId").handler(this::getCartHandler);
         
         ServiceDiscovery.create(vertx, discovery -> {
-            // Catalog lookup
-            Single<WebClient> catalogDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
-                    rec -> rec.getName().equals("catalog"))
-                    .doOnError(error -> {
-                        LOG.warn("Catalog Service is not available: {}", error.getMessage());
-                        vertx.close();
-                    });
+             // Catalog lookup
+             Single<WebClient> catalogDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
+             rec -> rec.getName().equals("catalog"))
+             .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
+                     .setDefaultHost(System.getProperty("catalog.api.host", "localhost"))
+                     .setDefaultPort(Integer.getInteger("catalog.api.port", 9000))));
 
             // Inventory lookup
             Single<WebClient> inventoryDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
                     rec -> rec.getName().equals("inventory"))
-                    .doOnError(error -> {
-                        LOG.warn("Inventory Service is not available: {}", error.getMessage());
-                        vertx.close();
-                    });
+                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
+                            .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
+                            .setDefaultPort(Integer.getInteger("inventory.api.port", 9001))));
 
             // Cart lookup
             Single<WebClient> cartDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
-                    rec -> rec.getName().equals("cart"));
+                    rec -> rec.getName().equals("cart"))
+                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
+                            .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
+                            .setDefaultPort(Integer.getInteger("inventory.api.port", 9002))));
 
             // Zip all 3 requests
-            Single.zip(catalogDiscoveryRequest, inventoryDiscoveryRequest, cartDiscoveryRequest, 
+            Single.zip(catalogDiscoveryRequest, inventoryDiscoveryRequest, cartDiscoveryRequest,
                 (cg, i, ct) -> {
                     // When everything is done
                     catalog = cg;
