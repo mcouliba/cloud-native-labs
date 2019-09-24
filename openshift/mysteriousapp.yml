@@ -20,7 +20,13 @@ objects:
         kind: ImageStreamTag
         name: catalog:latest
     postCommit: {}
-    resources: {}
+    resources:
+      limits:
+        cpu: 500m
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 2Gi
     runPolicy: Serial
     source:
       binary: {}
@@ -53,7 +59,13 @@ objects:
         kind: ImageStreamTag
         name: gateway:latest
     postCommit: {}
-    resources: {}
+    resources:
+      limits:
+        cpu: 500m
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 2Gi
     runPolicy: Serial
     source:
       binary: {}
@@ -86,7 +98,13 @@ objects:
         kind: ImageStreamTag
         name: inventory:latest
     postCommit: {}
-    resources: {}
+    resources:
+      limits:
+        cpu: 500m
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 2Gi
     runPolicy: Serial
     source:
       binary: {}
@@ -118,7 +136,13 @@ objects:
         kind: ImageStreamTag
         name: web:latest
     postCommit: {}
-    resources: {}
+    resources:
+      limits:
+        cpu: 500m
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 2Gi
     runPolicy: Serial
     source:
       binary: {}
@@ -153,7 +177,13 @@ objects:
       provider: fabric8
     strategy:
       activeDeadlineSeconds: 21600
-      resources: {}
+      resources:
+        limits:
+          cpu: 500m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
       rollingParams:
         intervalSeconds: 1
         maxSurge: 25%
@@ -176,7 +206,7 @@ objects:
         containers:
         - args:
           - -c
-          - until $(curl -o /dev/null -s -I -f http://localhost:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
+          - until $(curl -o /dev/null -s -I -f http://127.0.0.1:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
           command:
           - /bin/bash
           env:
@@ -198,7 +228,13 @@ objects:
           - containerPort: 8778
             name: jolokia
             protocol: TCP
-          resources: {}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
           securityContext:
             privileged: false
           terminationMessagePath: /dev/termination-log
@@ -208,7 +244,7 @@ objects:
               command:
                 - curl
                 - '-f'
-                - 'http://localhost:8080/health'
+                - 'http://127.0.0.1:8080/health'
             failureThreshold: 3
             initialDelaySeconds: 30
             periodSeconds: 10
@@ -219,7 +255,7 @@ objects:
               command:
                 - curl
                 - '-f'
-                - 'http://localhost:8080/health'
+                - 'http://127.0.0.1:8080/health'
             failureThreshold: 3
             initialDelaySeconds: 30
             periodSeconds: 10
@@ -261,7 +297,13 @@ objects:
       activeDeadlineSeconds: 21600
       recreateParams:
         timeoutSeconds: 600
-      resources: {}
+      resources:
+        limits:
+          cpu: 500m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
       type: Recreate
     template:
       metadata:
@@ -367,7 +409,13 @@ objects:
       provider: fabric8
     strategy:
       activeDeadlineSeconds: 21600
-      resources: {}
+      resources: 
+        limits:
+          cpu: 500m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
       rollingParams:
         intervalSeconds: 1
         maxSurge: 25%
@@ -390,7 +438,7 @@ objects:
         containers:
         - args:
           - -c
-          - until $(curl -o /dev/null -s -I -f http://localhost:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
+          - until $(curl -o /dev/null -s -I -f http://127.0.0.1:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
           command:
           - /bin/bash
           env:
@@ -412,7 +460,13 @@ objects:
           - containerPort: 8778
             name: jolokia
             protocol: TCP
-          resources: {}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
           securityContext:
             privileged: false
           terminationMessagePath: /dev/termination-log
@@ -422,7 +476,7 @@ objects:
               command:
                 - curl
                 - '-f'
-                - 'http://localhost:8080/health'
+                - 'http://127.0.0.1:8080/health'
             failureThreshold: 3
             initialDelaySeconds: 15
             periodSeconds: 10
@@ -433,7 +487,7 @@ objects:
               command:
                 - curl
                 - '-f'
-                - 'http://localhost:8080/health'
+                - 'http://127.0.0.1:8080/health'
             failureThreshold: 3
             initialDelaySeconds: 15
             periodSeconds: 10
@@ -477,7 +531,13 @@ objects:
       provider: fabric8
     strategy:
       activeDeadlineSeconds: 21600
-      resources: {}
+      resources:
+        limits:
+          cpu: 500m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
       rollingParams:
         intervalSeconds: 1
         maxSurge: 25%
@@ -500,7 +560,7 @@ objects:
         containers:
         - args:
           - -c
-          - until $(curl -o /dev/null -s -I -f http://localhost:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
+          - until $(curl -o /dev/null -s -I -f http://127.0.0.1:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
           command:
           - /bin/bash
           env:
@@ -526,7 +586,13 @@ objects:
           - containerPort: 8778
             name: jolokia
             protocol: TCP
-          resources: {}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
           securityContext:
             privileged: false
           terminationMessagePath: /dev/termination-log
@@ -539,7 +605,7 @@ objects:
               command:
                 - curl
                 - '-f'
-                - 'http://localhost:8080/node'
+                - 'http://127.0.0.1:8080/node'
             failureThreshold: 3
             initialDelaySeconds: 30
             periodSeconds: 10
@@ -550,7 +616,7 @@ objects:
               command:
                 - curl
                 - '-f'
-                - 'http://localhost:8080/node'
+                - 'http://127.0.0.1:8080/node'
             failureThreshold: 3
             initialDelaySeconds: 30
             periodSeconds: 10
@@ -597,7 +663,13 @@ objects:
       activeDeadlineSeconds: 21600
       recreateParams:
         timeoutSeconds: 600
-      resources: {}
+      resources:
+        limits:
+          cpu: 500m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
       type: Recreate
     template:
       metadata:
@@ -699,7 +771,13 @@ objects:
       deploymentconfig: web
     strategy:
       activeDeadlineSeconds: 21600
-      resources: {}
+      resources:
+        limits:
+          cpu: 500m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
       rollingParams:
         intervalSeconds: 1
         maxSurge: 25%
@@ -728,7 +806,13 @@ objects:
           ports:
           - containerPort: 8080
             protocol: TCP
-          resources: {}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           livenessProbe:
